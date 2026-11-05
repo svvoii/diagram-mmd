@@ -26,7 +26,6 @@ or `mmdc`.
 ```
 diagram-mmd/
 ├── SKILL.md                 # the skill: frontmatter + 7-step workflow (only mandatory file)
-├── assets/flowchart-TD.mmd  # optional starter skeleton (not required)
 ├── scripts/
 │   ├── check_mmd.py         # stdlib-only .mmd linter — must PASS before delivery
 │   └── render_mmd.sh        # .mmd -> sibling .svg via mmdc + "?" icon-fallback check — default step

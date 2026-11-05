@@ -57,7 +57,7 @@ When one diagram would exceed the budget or mix unrelated concerns (offline inge
 - Use a second diagram type where it fits — e.g. `sequenceDiagram` for one request over time (see [references/diagram-types.md](references/diagram-types.md)).
 
 ### 5. Draft the diagram
-You can write a valid `.mmd` **from scratch** — everything needed is in this file plus [references/flowchart-syntax.md](references/flowchart-syntax.md); no template file is required. If you want a ready-made skeleton, optionally copy constructs from [assets/flowchart-TD.mmd](assets/flowchart-TD.mmd) (its `@{ icon }` metadata is a demo only — see the icon warning below).
+Write a valid `.mmd` **from scratch** — everything needed is in this file plus [references/flowchart-syntax.md](references/flowchart-syntax.md); no starter template file is needed.
 
 - Prefer `classDef` + `class A,B myClass` over per-node `style` lines.
 - House edge style (unless the user asks otherwise): `linkStyle default stroke:#607D8B,stroke-width:1.5px` — one neutral edge color for the whole set, so colored nodes carry the visual weight. Arrowheads stay the theme's filled triangle; per-edge markers via `---` / `==>` / `o--o` / `x--x`.
@@ -68,8 +68,8 @@ You can write a valid `.mmd` **from scratch** — everything needed is in this f
 ### 6. Write, validate, and render the file
 1. Save as UTF-8 `.mmd`. The diagram keyword (`flowchart TD` by default) must come before any diagram content — a `%%` header comment block may precede it, but every `%%` line must have text after it (a bare `%%` line is a parse error in Mermaid v11).
 2. Header comment block at the top: title, target repo, the sibling SVG name, how to render.
-3. Lint: `python3 scripts/check_mmd.py <file>` — must report PASS (warnings OK, but read them: W5 = icon may render as `?`).
-4. **Render the SVG by default**: `bash scripts/render_mmd.sh <file.mmd> [more.mmd ...]` writes `<file>.svg` next to the source via `mmdc` and exits non-zero if any `@{ icon }` rendered as a `?` fallback. The default deliverable is **`.mmd` + `.svg` side by side**. If node/npx is unavailable the script prints SKIP — deliver the `.mmd` only and say so in the report. Render options (themes, PNG/PDF, parse-only check): [references/validation-rendering.md](references/validation-rendering.md).
+3. Lint: `python3 <skill-dir>/scripts/check_mmd.py <file>` — must report PASS (warnings OK, but read them: W5 = icon may render as `?`).
+4. **Render the SVG by default**: `bash <skill-dir>/scripts/render_mmd.sh <file.mmd> [more.mmd ...]` writes `<file>.svg` next to the source via `mmdc` and exits non-zero if any `@{ icon }` rendered as a `?` fallback. The default deliverable is **`.mmd` + `.svg` side by side**. If node/npx is unavailable the script prints SKIP — deliver the `.mmd` only and say so in the report. Render options (themes, PNG/PDF, parse-only check): [references/validation-rendering.md](references/validation-rendering.md).
 
 ### 7. Report back
 - The file paths — both the `.mmd` source and the rendered `.svg` (or that SVG was skipped: no node/npx).
@@ -89,8 +89,8 @@ You can write a valid `.mmd` **from scratch** — everything needed is in this f
 - [ ] No node ID reused with a different shape; no reserved word used as an ID.
 - [ ] ≤ ~30 nodes (aim ~10–15 per view); subgraphs used for layers/boundaries.
 - [ ] In a multi-view set, every file's `%%` header cross-references the sibling views.
-- [ ] `python3 scripts/check_mmd.py <file>` → PASS.
-- [ ] `bash scripts/render_mmd.sh <file>` → OK, `<file>.svg` sits next to the source and its `>?</tspan>` icon check is clean (if node/npx missing: reported as skipped).
+- [ ] `python3 <skill-dir>/scripts/check_mmd.py <file>` → PASS.
+- [ ] `bash <skill-dir>/scripts/render_mmd.sh <file>` → OK, `<file>.svg` sits next to the source and its `>?</tspan>` icon check is clean (if node/npx missing: reported as skipped).
 
 ## Common pitfalls
 - Unquoted labels containing `( ) [ ] { } : ; / ? & -- >` → parse error. Always quote.
@@ -108,8 +108,6 @@ You can write a valid `.mmd` **from scratch** — everything needed is in this f
 ```
 diagram-mmd/
 ├── SKILL.md                          # this file (only mandatory file per the spec)
-├── assets/
-│   └── flowchart-TD.mmd              # optional starter skeleton — NOT required; SKILL.md + references suffice
 ├── scripts/
 │   ├── check_mmd.py                  # stdlib-only .mmd linter — run before delivering
 │   └── render_mmd.sh                 # renders <file>.svg next to each .mmd via mmdc + icon-fallback check — run by default
